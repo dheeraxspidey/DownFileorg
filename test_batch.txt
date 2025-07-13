@@ -1,0 +1,9 @@
+# Test batch file for universal classifier
+# Format: filename, size_mb
+assignment_math_homework.pdf, 1.2
+the_matrix_reloaded.mkv, 2800
+cyberpunk_2077_setup.exe, 65000
+spotify_premium.mp3, 5.5
+resume_software_engineer.docx, 0.3
+tax_return_2024.pdf, 0.8
+minecraft_java_edition.zip, 12000
