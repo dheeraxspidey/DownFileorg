@@ -1,4 +1,4 @@
-# ⚡ DownFileOrg Pro - AI File*Experience the modern dark theme interface with intuitive controls for file organization and real-time monitoring.*
+# ⚡ DownFileOrg Pro - AI FileOrganizer *Experience the modern dark theme interface with intuitive controls for file organization and real-time monitoring.*
 
 ## 🛠️ Installation & Setup
 
