@@ -1,4 +1,10 @@
-# ⚡ DownFileOrg Pro - AI File Organizer *Experience the modern dark theme interface with intuitive controls for file organization and real-time monitoring.*
+
+<p align="center">
+  <img width="400"  src="https://github.com/user-attachments/assets/fe41a50a-5853-43d5-ab9e-3693d2ef9a36" alt="Remove background project (2)" />
+</p>
+
+
+# ⚡ DownFileOrg Pro - AI File Organizer -
 
 ## 🛠️ Installation & Setup
 
