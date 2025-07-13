@@ -1,5 +1,15 @@
+# Core dependencies
 pandas>=1.3.0
 numpy>=1.21.0
 scikit-learn>=1.0.0
 joblib>=1.0.0
 watchdog>=3.0.0
+
+# Build dependencies
+pyinstaller>=5.0.0
+
+# GUI dependencies (usually included with Python)
+# tkinter  # Built-in with Python
+
+# Optional: For better icon handling on Linux/macOS
+Pillow>=8.0.0

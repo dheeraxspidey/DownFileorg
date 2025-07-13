@@ -16,6 +16,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from random_forest_classifier import RandomForestFileClassifier
 
+
 class FileOrganizerHandler(FileSystemEventHandler):
     """Handler for file system events."""
     
@@ -67,11 +68,11 @@ class FileOrganizerHandler(FileSystemEventHandler):
         try:
             if self.status_callback:
                 filename = os.path.basename(file_path)
-                self.status_callback(f"🤖 Auto-organizing: {filename[:20]}...")
+                self.status_callback(f"▸ Auto-organizing: {filename[:20]}...")
             
             # Classify file
             result = self.classifier.predict(file_path)
-            category = result['folder_name']  # Use folder_name instead of predicted_category
+            category = result['folder_name']
             
             # Create category folder if it doesn't exist
             category_folder = os.path.join(self.target_folder, category)
@@ -91,7 +92,7 @@ class FileOrganizerHandler(FileSystemEventHandler):
             shutil.move(file_path, destination)
             
             if self.status_callback:
-                self.status_callback(f"✅ Moved to {category}")
+                self.status_callback(f"✓ Moved to {category}")
                 
         except Exception as e:
             print(f"Error organizing {file_path}: {e}")
@@ -99,31 +100,40 @@ class FileOrganizerHandler(FileSystemEventHandler):
 class ModernFileOrganizerWithWatchdog:
     def __init__(self, root):
         self.root = root
-        self.root.title("⚡ AI File Organizer Pro - With Auto-Watch")
-        self.root.geometry("750x700")
+        self.root.title("⚡ DownFileOrg Pro - AI File Organizer")
+        self.root.geometry("900x800")  # Larger window for premium look
         
-        # Modern dark theme colors
+        # Modern dark theme colors with better contrast
         self.colors = {
-            'bg_primary': '#0f0f0f',      # Deep black
-            'bg_secondary': '#1a1a1a',    # Dark gray
-            'bg_card': '#252525',         # Card background
-            'accent_purple': '#8b5cf6',   # Purple accent
-            'accent_blue': '#3b82f6',     # Blue accent
-            'accent_green': '#10b981',    # Green accent
+            'bg_primary': '#0a0a0a',      # Even deeper black for better contrast
+            'bg_secondary': '#1c1c1c',    # Slightly lighter gray
+            'bg_card': '#2a2a2a',         # Better card background
+            'accent_purple': '#a855f7',   # Brighter purple
+            'accent_blue': '#3b82f6',     # Bright blue
+            'accent_green': '#22c55e',    # Brighter green
             'accent_orange': '#f59e0b',   # Orange accent
-            'text_primary': '#ffffff',    # White text
-            'text_secondary': '#a1a1aa',  # Gray text
-            'text_muted': '#71717a',      # Muted text
+            'text_primary': '#ffffff',    # Pure white for max contrast
+            'text_secondary': '#e5e5e5',  # Light gray text
+            'text_muted': '#9ca3af',      # Better muted text
             'border': '#404040',          # Border color
-            'hover': '#2a2a2a',           # Hover state
+            'hover': '#374151',           # Better hover state
             'error': '#ef4444',           # Error red
             'warning': '#f59e0b',         # Warning orange
+            'success': '#10b981',         # Success green
         }
         
-        # Configure main window
+        # Configure main window with better rendering
         self.root.configure(bg=self.colors['bg_primary'])
         self.root.resizable(True, True)
-        self.root.minsize(700, 650)
+        self.root.minsize(850, 750)  # Larger minimum size
+        
+        # Improve font rendering on Windows
+        try:
+            self.root.tk.call('tk', 'scaling', 1.0)  # Reset DPI scaling
+            # Try to enable font smoothing
+            self.root.option_add('*Font', 'Arial 10')
+        except:
+            pass
         
         # Initialize classifier and watchdog
         self.classifier = None
@@ -191,8 +201,8 @@ class ModernFileOrganizerWithWatchdog:
         main_container = tk.Frame(
             self.root, 
             bg=self.colors['bg_primary'],
-            padx=30,
-            pady=30
+            padx=40,  # More padding for premium look
+            pady=40
         )
         main_container.pack(fill='both', expand=True)
         
@@ -200,37 +210,31 @@ class ModernFileOrganizerWithWatchdog:
         self.create_header(main_container)
         
         # Spacer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=20).pack()
+        tk.Frame(main_container, bg=self.colors['bg_primary'], height=30).pack()
         
         # Stats card
         self.create_stats_card(main_container)
         
         # Spacer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=20).pack()
+        tk.Frame(main_container, bg=self.colors['bg_primary'], height=30).pack()
         
         # Folder selection card
         self.create_folder_card(main_container)
         
         # Spacer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=20).pack()
+        tk.Frame(main_container, bg=self.colors['bg_primary'], height=30).pack()
         
         # Watchdog control card
         self.create_watchdog_card(main_container)
         
         # Spacer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=20).pack()
+        tk.Frame(main_container, bg=self.colors['bg_primary'], height=30).pack()
         
         # Progress section
         self.create_progress_section(main_container)
         
-        # Spacer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=25).pack()
-        
-        # Action buttons
-        self.create_action_buttons(main_container)
-        
         # Footer
-        tk.Frame(main_container, bg=self.colors['bg_primary'], height=20).pack()
+        tk.Frame(main_container, bg=self.colors['bg_primary'], height=30).pack()
         self.create_footer(main_container)
     
     def create_header(self, parent):
@@ -242,75 +246,91 @@ class ModernFileOrganizerWithWatchdog:
         title_container = tk.Frame(header_frame, bg=self.colors['bg_primary'])
         title_container.pack()
         
-        # Icon and title
+        # Icon and title with better font rendering
         icon_label = tk.Label(
             title_container,
             text="⚡",
-            font=('Segoe UI', 32, 'bold'),
+            font=('Arial', 42, 'bold'),
             fg=self.colors['accent_purple'],
             bg=self.colors['bg_primary']
         )
-        icon_label.pack(side='left', padx=(0, 10))
+        icon_label.pack(side='left', padx=(0, 15))
         
         title_label = tk.Label(
             title_container,
             text="AI File Organizer Pro",
-            font=('Segoe UI', 28, 'bold'),
+            font=('Arial', 36, 'bold'),
             fg=self.colors['text_primary'],
             bg=self.colors['bg_primary']
         )
         title_label.pack(side='left')
         
+        # Apply text smoothing
+        try:
+            title_label.configure(compound='none')
+            icon_label.configure(compound='none')
+        except:
+            pass
+        
         # Watchdog indicator
         self.watchdog_indicator = tk.Label(
             title_container,
             text="👁️",
-            font=('Segoe UI', 20),
+            font=('Arial', 28),
             fg=self.colors['text_muted'],
             bg=self.colors['bg_primary']
         )
-        self.watchdog_indicator.pack(side='left', padx=(10, 0))
+        self.watchdog_indicator.pack(side='left', padx=(15, 0))
         
-        # Subtitle
+        # Subtitle with better contrast
         subtitle = tk.Label(
             header_frame,
             text="Intelligent file organization with real-time monitoring",
-            font=('Segoe UI', 11),
+            font=('Arial', 14),
             fg=self.colors['text_secondary'],
             bg=self.colors['bg_primary']
         )
         subtitle.pack(pady=(5, 0))
     
     def create_stats_card(self, parent):
-        """Create stats card with modern styling."""
-        card_frame = tk.Frame(
+        """Create stats card with enhanced modern styling."""
+        # Card container with subtle shadow effect
+        card_container = tk.Frame(
             parent,
+            bg=self.colors['bg_primary'],
+            padx=2,
+            pady=2
+        )
+        card_container.pack(fill='x', pady=(0, 10))
+        
+        card_frame = tk.Frame(
+            card_container,
             bg=self.colors['bg_card'],
             relief='flat',
             bd=0
         )
-        card_frame.pack(fill='x', pady=(0, 10))
+        card_frame.pack(fill='both', expand=True)
         
-        # Add subtle border effect
-        border_frame = tk.Frame(card_frame, bg=self.colors['border'], height=1)
-        border_frame.pack(fill='x', side='bottom')
+        # Subtle border effect
+        border_frame = tk.Frame(card_frame, bg=self.colors['accent_purple'], height=2)
+        border_frame.pack(fill='x', side='top')
         
-        # Content
-        content_frame = tk.Frame(card_frame, bg=self.colors['bg_card'], padx=25, pady=20)
+        # Content with better spacing
+        content_frame = tk.Frame(card_frame, bg=self.colors['bg_card'], padx=30, pady=25)
         content_frame.pack(fill='x')
         
-        # Stats grid
+        # Stats grid with improved layout
         stats_container = tk.Frame(content_frame, bg=self.colors['bg_card'])
         stats_container.pack(fill='x')
         
-        # Files count
+        # Files count with enhanced styling
         files_frame = tk.Frame(stats_container, bg=self.colors['bg_card'])
         files_frame.pack(side='left', fill='x', expand=True)
         
         self.files_count_label = tk.Label(
             files_frame,
             text="0",
-            font=('Segoe UI', 24, 'bold'),
+            font=('Arial', 36, 'bold'),  # Much bigger and bolder
             fg=self.colors['accent_blue'],
             bg=self.colors['bg_card']
         )
@@ -319,42 +339,43 @@ class ModernFileOrganizerWithWatchdog:
         tk.Label(
             files_frame,
             text="Files detected",
-            font=('Segoe UI', 10),
-            fg=self.colors['text_muted'],
+            font=('Arial', 14, 'normal'),  # Larger subtitle
+            fg=self.colors['text_secondary'],  # Better contrast
             bg=self.colors['bg_card']
-        ).pack()
+        ).pack(pady=(5, 0))
         
-        # AI Status
+        # AI Status with better styling
         ai_frame = tk.Frame(stats_container, bg=self.colors['bg_card'])
         ai_frame.pack(side='left', fill='x', expand=True)
         
         ai_status = "🤖 AI Ready" if self.classifier else "❌ AI Error"
         ai_color = self.colors['accent_green'] if self.classifier else self.colors['error']
         
-        tk.Label(
+        ai_status_label = tk.Label(
             ai_frame,
             text=ai_status,
-            font=('Segoe UI', 12, 'bold'),
+            font=('Arial', 16, 'bold'),  # Much larger font
             fg=ai_color,
             bg=self.colors['bg_card']
-        ).pack()
+        )
+        ai_status_label.pack()
         
         tk.Label(
             ai_frame,
             text="Machine Learning Status",
-            font=('Segoe UI', 10),
-            fg=self.colors['text_muted'],
+            font=('Arial', 14, 'normal'),
+            fg=self.colors['text_secondary'],
             bg=self.colors['bg_card']
-        ).pack()
+        ).pack(pady=(5, 0))
         
-        # Watchdog Status
+        # Watchdog Status with enhanced visibility
         watchdog_frame = tk.Frame(stats_container, bg=self.colors['bg_card'])
         watchdog_frame.pack(side='right', fill='x', expand=True)
         
         self.watchdog_status_label = tk.Label(
             watchdog_frame,
             text="👁️ Monitor Off",
-            font=('Segoe UI', 12, 'bold'),
+            font=('Arial', 16, 'bold'),
             fg=self.colors['text_muted'],
             bg=self.colors['bg_card']
         )
@@ -363,10 +384,10 @@ class ModernFileOrganizerWithWatchdog:
         tk.Label(
             watchdog_frame,
             text="Real-time Monitoring",
-            font=('Segoe UI', 10),
-            fg=self.colors['text_muted'],
+            font=('Arial', 14, 'normal'),
+            fg=self.colors['text_secondary'],
             bg=self.colors['bg_card']
-        ).pack()
+        ).pack(pady=(5, 0))
     
     def create_folder_card(self, parent):
         """Create folder selection card."""
@@ -388,10 +409,10 @@ class ModernFileOrganizerWithWatchdog:
         tk.Label(
             content_frame,
             text="📁 Select Target Folder",
-            font=('Segoe UI', 14, 'bold'),
+            font=('Arial', 18, 'bold'),
             fg=self.colors['text_primary'],
             bg=self.colors['bg_card']
-        ).pack(anchor='w', pady=(0, 15))
+        ).pack(anchor='w', pady=(0, 20))
         
         # Folder selection row
         folder_row = tk.Frame(content_frame, bg=self.colors['bg_card'])
@@ -411,12 +432,12 @@ class ModernFileOrganizerWithWatchdog:
         folder_label = tk.Label(
             folder_display,
             textvariable=self.folder_var,
-            font=('Segoe UI', 10),
+            font=('Arial', 12),
             fg=self.colors['text_primary'],
             bg=self.colors['bg_secondary'],
             anchor='w',
             padx=15,
-            pady=12
+            pady=15
         )
         folder_label.pack(fill='x')
         
@@ -425,15 +446,15 @@ class ModernFileOrganizerWithWatchdog:
             folder_row,
             text="Browse",
             command=self.browse_folder,
-            font=('Segoe UI', 10, 'bold'),
+            font=('Arial', 12, 'bold'),
             fg=self.colors['text_primary'],
             bg=self.colors['accent_purple'],
             activebackground=self.colors['hover'],
             activeforeground=self.colors['text_primary'],
             relief='flat',
             bd=0,
-            padx=25,
-            pady=12,
+            padx=30,
+            pady=15,
             cursor='hand2'
         )
         self.browse_btn.pack(side='right')
@@ -457,23 +478,46 @@ class ModernFileOrganizerWithWatchdog:
         content_frame = tk.Frame(card_frame, bg=self.colors['bg_card'], padx=25, pady=25)
         content_frame.pack(fill='x')
         
-        # Header
+        # Header with buttons
         header_row = tk.Frame(content_frame, bg=self.colors['bg_card'])
         header_row.pack(fill='x', pady=(0, 15))
         
         tk.Label(
             header_row,
-            text="👁️ Auto-Monitor Mode",
-            font=('Segoe UI', 14, 'bold'),
+            text="▶ Auto-Monitor Mode",
+            font=('Arial', 20, 'bold'),
             fg=self.colors['text_primary'],
             bg=self.colors['bg_card']
         ).pack(side='left')
         
+        # Button container for both buttons
+        button_container = tk.Frame(header_row, bg=self.colors['bg_card'])
+        button_container.pack(side='right')
+        
+        # Organize button (first)
+        self.organize_btn = tk.Button(
+            button_container,
+            text="▸ Organize Now",
+            command=self.organize_files,
+            font=('Arial', 14, 'bold'),
+            fg=self.colors['text_primary'],
+            bg=self.colors['accent_blue'],
+            activebackground='#2563eb',
+            activeforeground=self.colors['text_primary'],
+            relief='flat',
+            bd=0,
+            padx=20,
+            pady=12,
+            cursor='hand2'
+        )
+        self.organize_btn.pack(side='left', padx=(0, 10))
+        
+        # Watch button (second)
         self.watchdog_toggle_btn = tk.Button(
-            header_row,
-            text="▶️ Start Watching",
+            button_container,
+            text="▸ Start Watching",
             command=self.toggle_watchdog,
-            font=('Segoe UI', 10, 'bold'),
+            font=('Arial', 14, 'bold'),
             fg=self.colors['text_primary'],
             bg=self.colors['accent_green'],
             activebackground='#059669',
@@ -481,22 +525,23 @@ class ModernFileOrganizerWithWatchdog:
             relief='flat',
             bd=0,
             padx=20,
-            pady=8,
+            pady=12,
             cursor='hand2'
         )
-        self.watchdog_toggle_btn.pack(side='right')
+        self.watchdog_toggle_btn.pack(side='left')
         
         # Description
         description = tk.Label(
             content_frame,
-            text="Automatically organize files as they are added to the folder",
-            font=('Segoe UI', 10),
+            text="Organize all files instantly, or enable auto-monitoring for new files",
+            font=('Arial', 14, 'bold'),
             fg=self.colors['text_secondary'],
             bg=self.colors['bg_card']
         )
         description.pack(anchor='w')
         
-        # Add hover effect
+        # Add hover effects
+        self.add_hover_effect(self.organize_btn, self.colors['accent_blue'], '#2563eb')
         self.add_hover_effect(self.watchdog_toggle_btn, self.colors['accent_green'], '#059669')
     
     def create_progress_section(self, parent):
@@ -517,36 +562,11 @@ class ModernFileOrganizerWithWatchdog:
         self.status_label = tk.Label(
             progress_frame,
             text="Ready to organize files",
-            font=('Segoe UI', 11),
+            font=('Arial', 16, 'bold'),
             fg=self.colors['text_secondary'],
             bg=self.colors['bg_primary']
         )
         self.status_label.pack(pady=(15, 0))
-    
-    def create_action_buttons(self, parent):
-        """Create action buttons with modern styling."""
-        button_container = tk.Frame(parent, bg=self.colors['bg_primary'])
-        button_container.pack(fill='x')
-        
-        # Main organize button
-        self.organize_btn = tk.Button(
-            button_container,
-            text="🚀 Organize All Files Now",
-            command=self.organize_files,
-            font=('Segoe UI', 14, 'bold'),
-            fg=self.colors['text_primary'],
-            bg=self.colors['accent_blue'],
-            activebackground='#2563eb',
-            activeforeground=self.colors['text_primary'],
-            relief='flat',
-            bd=0,
-            pady=18,
-            cursor='hand2'
-        )
-        self.organize_btn.pack(fill='x', ipady=5)
-        
-        # Add hover effect
-        self.add_hover_effect(self.organize_btn, self.colors['accent_blue'], '#2563eb')
     
     def create_footer(self, parent):
         """Create footer with additional info."""
@@ -556,8 +576,8 @@ class ModernFileOrganizerWithWatchdog:
         # Version info
         tk.Label(
             footer_frame,
-            text="v2.1 • Built with AI • Real-time Monitoring • Modern Interface",
-            font=('Segoe UI', 9),
+            text="v2.1 | Built with ❤️ by Dheeraj Anagandula © 2025",
+            font=('Arial', 12, 'bold'),
             fg=self.colors['text_muted'],
             bg=self.colors['bg_primary']
         ).pack()
@@ -575,9 +595,9 @@ class ModernFileOrganizerWithWatchdog:
     
     def add_window_effects(self):
         """Add modern window effects."""
-        # Try to make window slightly transparent (Windows 10/11)
+        # Make window completely opaque for better readability
         try:
-            self.root.wm_attributes('-alpha', 0.98)
+            self.root.wm_attributes('-alpha', 1.0)  # Fully opaque
         except:
             pass
     
@@ -654,21 +674,107 @@ class ModernFileOrganizerWithWatchdog:
             
             self.is_watching = True
             self.watchdog_toggle_btn.config(
-                text="⏹️ Stop Watching",
+                text="■ Stop Watching",
                 bg=self.colors['error']
             )
             self.watchdog_status_label.config(
-                text="👁️ Monitoring Active",
+                text="Monitoring Active",
                 fg=self.colors['accent_green']
             )
             self.watchdog_indicator.config(fg=self.colors['accent_green'])
             self.status_label.config(
-                text="👁️ Watching for new files...",
-                fg=self.colors['accent_green']
+                text="▶ Organizing existing files...",
+                fg=self.colors['accent_orange']
             )
+            
+            # Organize existing files in the folder when monitoring starts
+            self._organize_existing_files()
             
         except Exception as e:
             messagebox.showerror("Error", f"Failed to start monitoring: {e}")
+    
+    def _organize_existing_files(self):
+        """Organize files that are already in the folder when monitoring starts."""
+        def organize_worker():
+            try:
+                # Get all existing files
+                files = []
+                for item in os.listdir(self.downloads_path):
+                    item_path = os.path.join(self.downloads_path, item)
+                    if os.path.isfile(item_path):
+                        files.append(item_path)
+                
+                if not files:
+                    self.root.after(0, lambda: self.status_label.config(
+                        text="▶ Watching for new files...",
+                        fg=self.colors['accent_green']
+                    ))
+                    return
+                
+                organized_count = 0
+                for file_path in files:
+                    try:
+                        filename = os.path.basename(file_path)
+                        self.root.after(0, lambda name=filename: self.status_label.config(
+                            text=f"▣ Organizing existing: {name[:20]}...",
+                            fg=self.colors['accent_orange']
+                        ))
+                        
+                        # Use the same organization logic as the handler
+                        result = self.classifier.predict(file_path)
+                        category = result['folder_name']
+                        
+                        # Create category folder if it doesn't exist
+                        category_folder = os.path.join(self.downloads_path, category)
+                        os.makedirs(category_folder, exist_ok=True)
+                        
+                        # Move file to category folder
+                        destination = os.path.join(category_folder, os.path.basename(file_path))
+                        
+                        # Handle name conflicts
+                        counter = 1
+                        base_name, ext = os.path.splitext(os.path.basename(file_path))
+                        while os.path.exists(destination):
+                            new_name = f"{base_name}_{counter}{ext}"
+                            destination = os.path.join(category_folder, new_name)
+                            counter += 1
+                        
+                        shutil.move(file_path, destination)
+                        organized_count += 1
+                        
+                    except Exception as e:
+                        print(f"Error organizing existing file {file_path}: {e}")
+                        continue
+                
+                # Update UI when done
+                self.root.after(0, lambda: self.update_file_count())
+                
+                if organized_count > 0:
+                    self.root.after(0, lambda: self.status_label.config(
+                        text=f"✓ Organized {organized_count} existing files. Now watching...",
+                        fg=self.colors['accent_green']
+                    ))
+                    # Reset to watching status after 3 seconds
+                    self.root.after(3000, lambda: self.status_label.config(
+                        text="▶ Watching for new files...",
+                        fg=self.colors['accent_green']
+                    ) if self.is_watching else None)
+                else:
+                    self.root.after(0, lambda: self.status_label.config(
+                        text="▶ Watching for new files...",
+                        fg=self.colors['accent_green']
+                    ))
+                    
+            except Exception as e:
+                print(f"Error organizing existing files: {e}")
+                self.root.after(0, lambda: self.status_label.config(
+                    text="▶ Watching for new files...",
+                    fg=self.colors['accent_green']
+                ))
+        
+        # Run in separate thread to avoid blocking UI
+        thread = threading.Thread(target=organize_worker, daemon=True)
+        thread.start()
     
     def stop_watchdog(self):
         """Stop watchdog monitoring."""
@@ -679,11 +785,11 @@ class ModernFileOrganizerWithWatchdog:
         
         self.is_watching = False
         self.watchdog_toggle_btn.config(
-            text="▶️ Start Watching",
+            text="▸ Start Watching",
             bg=self.colors['accent_green']
         )
         self.watchdog_status_label.config(
-            text="👁️ Monitor Off",
+            text="Monitor Off",
             fg=self.colors['text_muted']
         )
         self.watchdog_indicator.config(fg=self.colors['text_muted'])
@@ -700,7 +806,7 @@ class ModernFileOrganizerWithWatchdog:
             self.update_file_count()
             # Reset status after 3 seconds
             self.root.after(3000, lambda: self.status_label.config(
-                text="👁️ Watching for new files...",
+                text="▶ Watching for new files...",
                 fg=self.colors['accent_green']
             ) if self.is_watching else None)
         
@@ -719,11 +825,11 @@ class ModernFileOrganizerWithWatchdog:
         # Update button state
         self.organize_btn.config(
             state='disabled', 
-            text="🤖 AI Working...", 
+            text="▸ AI Working...", 
             bg=self.colors['text_muted']
         )
         self.progress.start(10)
-        self.status_label.config(text="🔍 Scanning files...", fg=self.colors['accent_blue'])
+        self.status_label.config(text="▶ Scanning files...", fg=self.colors['accent_blue'])
         
         # Run organization in separate thread
         thread = threading.Thread(target=self._organize_worker)
@@ -755,7 +861,7 @@ class ModernFileOrganizerWithWatchdog:
                     display_name = filename[:25] + "..." if len(filename) > 25 else filename
                     self.root.after(0, lambda name=display_name: 
                                    self.status_label.config(
-                                       text=f"🤖 Processing: {name}",
+                                       text=f"▸ Processing: {name}",
                                        fg=self.colors['accent_purple']
                                    ))
                     
@@ -787,7 +893,7 @@ class ModernFileOrganizerWithWatchdog:
                     continue
             
             # Show completion message
-            message = f"🎉 Successfully organized {organized_count} files into {len(categories)} categories:\n\n"
+            message = f"✓ Successfully organized {organized_count} files into {len(categories)} categories:\n\n"
             message += " • " + "\n • ".join(sorted(categories))
             
             self.root.after(0, lambda: self._show_completion(message, 'success'))
@@ -800,12 +906,12 @@ class ModernFileOrganizerWithWatchdog:
         self.progress.stop()
         self.organize_btn.config(
             state='normal', 
-            text="🚀 Organize All Files Now", 
+            text="▸ Organize Now", 
             bg=self.colors['accent_blue']
         )
         
         if self.is_watching:
-            self.status_label.config(text="👁️ Watching for new files...", fg=self.colors['accent_green'])
+            self.status_label.config(text="▶ Watching for new files...", fg=self.colors['accent_green'])
         else:
             self.status_label.config(text="Ready to organize files", fg=self.colors['text_secondary'])
         
@@ -813,11 +919,11 @@ class ModernFileOrganizerWithWatchdog:
         
         # Show appropriate message box
         if msg_type == 'success':
-            messagebox.showinfo("✨ Organization Complete", message)
+            messagebox.showinfo("✓ Organization Complete", message)
         elif msg_type == 'error':
-            messagebox.showerror("❌ Error", message)
+            messagebox.showerror("✗ Error", message)
         else:
-            messagebox.showinfo("ℹ️ Information", message)
+            messagebox.showinfo("ⓘ Information", message)
     
     def on_closing(self):
         """Handle window closing."""
@@ -832,10 +938,23 @@ def main():
     
     # Set window icon (if available)
     try:
-        # You can add an icon file here
-        # root.iconbitmap('icon.ico')
-        pass
-    except:
+        # Get the correct path for the icon file
+        if getattr(sys, 'frozen', False):
+            # Running as executable - icon is embedded
+            bundle_dir = sys._MEIPASS
+            icon_path = os.path.join(bundle_dir, 'logo.ico')
+            if os.path.exists(icon_path):
+                root.iconbitmap(icon_path)
+        else:
+            # Running as script - look for icon in current directory
+            if os.path.exists('logo.ico'):
+                root.iconbitmap('logo.ico')
+            elif os.path.exists('logo.png'):
+                # Fallback to PNG using iconphoto
+                icon = tk.PhotoImage(file='logo.png')
+                root.iconphoto(True, icon)
+    except Exception as e:
+        print(f"Could not set window icon: {e}")
         pass
     
     app = ModernFileOrganizerWithWatchdog(root)

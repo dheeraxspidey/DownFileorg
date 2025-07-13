@@ -16,25 +16,10 @@ from random_forest_classifier import RandomForestFileClassifier
 class SimpleFileOrganizerGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("AI File Organizer Pro")
-        self.root.geometry("600x550")
-        self.root.configure(bg='#0a0e27')  # Dark blue background
-        self.root.resizable(False, False)
-        
-        # Modern color scheme
-        self.colors = {
-            'primary': '#6C5CE7',      # Purple
-            'secondary': '#74B9FF',    # Light blue
-            'accent': '#00CEC9',       # Teal
-            'success': '#00B894',      # Green
-            'warning': '#FDCB6E',      # Yellow
-            'danger': '#E17055',       # Red
-            'dark': '#0a0e27',         # Dark blue
-            'light': '#FFFFFF',        # White
-            'grey': '#636E72',         # Grey
-            'card': '#1e2139',         # Dark card
-            'text': '#DDD6FE'          # Light text
-        }
+        self.root.title("🗂️ Simple File Organizer")
+        self.root.geometry("500x450")  # Made taller to fit all elements
+        self.root.configure(bg='#f0f0f0')
+        self.root.resizable(True, True)  # Allow resizing so user can see all elements
         
         # Initialize classifier
         self.classifier = None
@@ -43,8 +28,8 @@ class SimpleFileOrganizerGUI:
         # Default to Downloads folder
         self.downloads_path = str(Path.home() / "Downloads")
         
-        # Create modern GUI
-        self.create_modern_widgets()
+        # Create GUI
+        self.create_widgets()
         
     def load_classifier(self):
         """Load the trained Random Forest classifier."""
@@ -68,267 +53,51 @@ class SimpleFileOrganizerGUI:
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load classifier: {e}")
     
-    def create_modern_widgets(self):
-        """Create modern, sleek GUI widgets."""
+    def create_widgets(self):
+        """Create simple GUI widgets."""
         
-        # Top header with gradient effect
-        header_frame = tk.Frame(self.root, bg=self.colors['dark'], height=80)
-        header_frame.pack(fill='x')
-        header_frame.pack_propagate(False)
-        
-        # Header content
-        header_content = tk.Frame(header_frame, bg=self.colors['dark'])
-        header_content.pack(expand=True, fill='both', padx=30, pady=15)
-        
-        # App icon and title
-        title_frame = tk.Frame(header_content, bg=self.colors['dark'])
-        title_frame.pack(side='left', fill='y')
-        
-        app_icon = tk.Label(
-            title_frame,
-            text="🤖",
-            font=('Segoe UI', 24),
-            bg=self.colors['dark'],
-            fg=self.colors['accent']
-        )
-        app_icon.pack(side='left', padx=(0, 10))
+        # Title
+        title_frame = tk.Frame(self.root, bg='#2c3e50', height=70)
+        title_frame.pack(fill='x')
+        title_frame.pack_propagate(False)
         
         title_label = tk.Label(
-            title_frame,
-            text="AI File Organizer Pro",
-            font=('Segoe UI', 18, 'bold'),
-            bg=self.colors['dark'],
-            fg=self.colors['light']
+            title_frame, 
+            text="🗂️ File Organizer", 
+            font=('Arial', 20, 'bold'),
+            fg='white', 
+            bg='#2c3e50'
         )
-        title_label.pack(side='left', anchor='w')
+        title_label.pack(expand=True)
         
-        # Status indicator
-        self.status_indicator = tk.Label(
-            header_content,
-            text="🟢 Ready",
-            font=('Segoe UI', 10),
-            bg=self.colors['dark'],
-            fg=self.colors['success']
+        # Main content
+        main_frame = tk.Frame(self.root, bg='#f0f0f0')
+        main_frame.pack(fill='both', expand=True, padx=15, pady=10)
+        
+        # Instruction
+        instruction_label = tk.Label(
+            main_frame,
+            text="Organize your Downloads folder automatically with AI",
+            font=('Arial', 11),
+            fg='#2c3e50',
+            bg='#f0f0f0'
         )
-        self.status_indicator.pack(side='right', anchor='e')
+        instruction_label.pack(pady=(0, 15))
         
-        # Main container with cards
-        main_container = tk.Frame(self.root, bg=self.colors['dark'])
-        main_container.pack(fill='both', expand=True, padx=30, pady=20)
-        
-        # Welcome card
-        welcome_card = self.create_card(main_container)
-        welcome_card.pack(fill='x', pady=(0, 20))
-        
-        welcome_icon = tk.Label(
-            welcome_card,
-            text="✨",
-            font=('Segoe UI', 20),
-            bg=self.colors['card'],
-            fg=self.colors['warning']
+        # Folder selection
+        folder_frame = tk.LabelFrame(
+            main_frame, 
+            text="📁 Select Folder to Organize", 
+            font=('Arial', 11, 'bold'),
+            padx=15,
+            pady=15,
+            bg='#ecf0f1',
+            fg='#2c3e50'
         )
-        welcome_icon.pack(pady=(10, 5))
+        folder_frame.pack(fill='x', pady=(0, 15))
         
-        welcome_text = tk.Label(
-            welcome_card,
-            text="Intelligent file organization powered by AI",
-            font=('Segoe UI', 12),
-            bg=self.colors['card'],
-            fg=self.colors['text']
-        )
-        welcome_text.pack(pady=(0, 15))
-        
-        # Folder selection card
-        folder_card = self.create_card(main_container)
-        folder_card.pack(fill='x', pady=(0, 20))
-        
-        folder_title = tk.Label(
-            folder_card,
-            text="📁 Select Target Directory",
-            font=('Segoe UI', 14, 'bold'),
-            bg=self.colors['card'],
-            fg=self.colors['light']
-        )
-        folder_title.pack(pady=(15, 10), anchor='w', padx=20)
-        
-        # Path frame
-        path_frame = tk.Frame(folder_card, bg=self.colors['card'])
-        path_frame.pack(fill='x', padx=20, pady=(0, 15))
-        
+        # Folder path display
         self.folder_var = tk.StringVar(value=self.downloads_path)
-        path_entry = tk.Entry(
-            path_frame,
-            textvariable=self.folder_var,
-            font=('Segoe UI', 10),
-            bg='#2d3748',
-            fg=self.colors['text'],
-            border=0,
-            relief='flat',
-            insertbackground=self.colors['text']
-        )
-        path_entry.pack(side='left', fill='x', expand=True, ipady=8, padx=(0, 10))
-        
-        browse_btn = self.create_modern_button(
-            path_frame,
-            "Browse",
-            self.colors['secondary'],
-            self.browse_folder,
-            width=80
-        )
-        browse_btn.pack(side='right')
-        
-        # Stats card
-        stats_card = self.create_card(main_container)
-        stats_card.pack(fill='x', pady=(0, 20))
-        
-        stats_frame = tk.Frame(stats_card, bg=self.colors['card'])
-        stats_frame.pack(fill='x', padx=20, pady=15)
-        
-        # File count
-        file_icon = tk.Label(
-            stats_frame,
-            text="📊",
-            font=('Segoe UI', 16),
-            bg=self.colors['card'],
-            fg=self.colors['accent']
-        )
-        file_icon.pack(side='left', padx=(0, 10))
-        
-        self.stats_label = tk.Label(
-            stats_frame,
-            text=f"Files detected: {self.count_files()}",
-            font=('Segoe UI', 12),
-            bg=self.colors['card'],
-            fg=self.colors['text']
-        )
-        self.stats_label.pack(side='left')
-        
-        # Progress card
-        progress_card = self.create_card(main_container)
-        progress_card.pack(fill='x', pady=(0, 20))
-        
-        # Progress bar with custom styling
-        progress_label = tk.Label(
-            progress_card,
-            text="🔄 Organization Progress",
-            font=('Segoe UI', 12, 'bold'),
-            bg=self.colors['card'],
-            fg=self.colors['light']
-        )
-        progress_label.pack(pady=(15, 10), padx=20, anchor='w')
-        
-        progress_container = tk.Frame(progress_card, bg=self.colors['card'])
-        progress_container.pack(fill='x', padx=20, pady=(0, 15))
-        
-        # Custom progress bar
-        self.progress_bg = tk.Frame(
-            progress_container,
-            bg='#2d3748',
-            height=8
-        )
-        self.progress_bg.pack(fill='x')
-        
-        self.progress_bar = tk.Frame(
-            self.progress_bg,
-            bg=self.colors['accent'],
-            height=8
-        )
-        
-        self.status_text = tk.Label(
-            progress_container,
-            text="Ready to organize files",
-            font=('Segoe UI', 10),
-            bg=self.colors['card'],
-            fg=self.colors['grey']
-        )
-        self.status_text.pack(pady=(8, 0), anchor='w')
-        
-        # Action buttons
-        button_frame = tk.Frame(main_container, bg=self.colors['dark'])
-        button_frame.pack(fill='x', pady=(10, 0))
-        
-        # Main organize button
-        self.organize_btn = self.create_gradient_button(
-            button_frame,
-            "🚀 Organize Files",
-            self.colors['primary'],
-            self.colors['secondary'],
-            self.organize_files
-        )
-        self.organize_btn.pack(fill='x')
-        
-    def create_card(self, parent):
-        """Create a modern card-like frame."""
-        card = tk.Frame(
-            parent,
-            bg=self.colors['card'],
-            relief='flat',
-            bd=0
-        )
-        # Add shadow effect by creating a slightly larger dark frame
-        shadow = tk.Frame(
-            parent,
-            bg='#0d1117',
-            height=2
-        )
-        return card
-    
-    def create_modern_button(self, parent, text, color, command, width=None):
-        """Create a modern styled button."""
-        btn = tk.Button(
-            parent,
-            text=text,
-            command=command,
-            bg=color,
-            fg='white',
-            font=('Segoe UI', 10, 'bold'),
-            border=0,
-            relief='flat',
-            cursor='hand2',
-            activebackground=self.darken_color(color),
-            activeforeground='white'
-        )
-        if width:
-            btn.config(width=width//8)  # Approximate width conversion
-        return btn
-    
-    def create_gradient_button(self, parent, text, color1, color2, command):
-        """Create a gradient-style button."""
-        btn_frame = tk.Frame(parent, bg=color1, relief='flat', bd=0)
-        
-        btn = tk.Button(
-            btn_frame,
-            text=text,
-            command=command,
-            bg=color1,
-            fg='white',
-            font=('Segoe UI', 14, 'bold'),
-            border=0,
-            relief='flat',
-            cursor='hand2',
-            activebackground=color2,
-            activeforeground='white',
-            pady=12
-        )
-        btn.pack(fill='both', expand=True)
-        
-        return btn_frame
-    
-    def darken_color(self, color):
-        """Darken a hex color for hover effects."""
-        # Simple color darkening
-        color_map = {
-            self.colors['primary']: '#5A52D5',
-            self.colors['secondary']: '#5A9FE7',
-            self.colors['accent']: '#00A59B',
-            self.colors['success']: '#009B7D'
-        }
-        return color_map.get(color, color)
-    
-    def update_progress(self, percentage):
-        """Update the custom progress bar."""
-        if hasattr(self, 'progress_bar'):
-            self.progress_bar.place(relwidth=percentage/100, relheight=1)
         folder_entry = tk.Entry(
             folder_frame,
             textvariable=self.folder_var,
