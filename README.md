@@ -35,10 +35,12 @@ A modern, AI-powered file organization tool with real-time monitoring and automa
 ## � Screenshots
 
 ### Main Application Interface
-![DownFileOrg Main Interface](screenshots/Screenshot%202025-07-13%20204600.png)
+![DownFileOrg Main Interface](screenshots/Screenshot%202025-07-13%20204718.png)
+
 
 ### File Organization in Action
-![File Organization Process](screenshots/Screenshot%202025-07-13%20204718.png)
+![File Organization Process](screenshots/Screenshot%202025-07-13%20204600.png)
+
 
 *Experience the modern dark theme interface with intuitive controls for file organization and real-time monitoring.*
 
