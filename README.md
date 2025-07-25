@@ -12,7 +12,7 @@
 
 #### 📥 Download Links
 - **Windows**: [Download DownFileOrg.exe](https://github.com/dheeraxspidey/DownFileorg/raw/main/dist/DownFileOrg.exe)
-- **Linux**: `Coming Soon...` 🚧
+- **Linux**: [Download DownFileOrg.exe](https://github.com/dheeraxspidey/DownFileorg/raw/main/dist/DownFileOrg.exe)
 - **macOS**: `Coming Soon...` 🚧
 
 *No Python installation required! Just download and run.*
