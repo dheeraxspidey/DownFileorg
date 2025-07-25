@@ -17,9 +17,6 @@
 
 *No Python installation required! Just download and run.*
 
-### Option 2: Run from Source
-
-A modern, AI-powered file organization tool with real-time monitoring and automatic file classification using Random Forest machine learning. Features a premium dark theme GUI and cross-platform executable support.
 
 ## 🚀 Features
 
@@ -52,11 +49,6 @@ A modern, AI-powered file organization tool with real-time monitoring and automa
 
 ## �🛠️ Installation & Setup
 
-### Option 1: Pre-built Executable (Recommended)
-Download the latest release for your platform:
-- **Windows**: `DownFileOrg.exe`
-- **Linux**: `DownFileOrg` 
-- **macOS**: `DownFileOrg.app`
 
 ### Option 2: Run from Source
 1. **Clone the repository**:
